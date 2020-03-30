@@ -1,30 +1,49 @@
 package com.remindme;
-
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Dialog;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Main";
-    //RemindersDbAdapter RDBA = new RemindersDbAdapter(this);
-    //TextView reminderContent  = (TextView) findViewById(R.id.text_reminder);
-    //TextView reminderImportant  = (CheckBox) findViewById(R.id.check_important);
-    // ListView listView = (ListView)  findViewById(R.id.list_view);
+    private EditText rContent ;
+    private  CheckBox rImportant ;
+    private Dialog dialog;
+    private ListView listView;
+    private RemindersDbAdapter rAdapter;
+    private RemindersSimpleCursorAdapter rCursor;
+
+    //private  RemindersSimpleCursorAdapter Cursor = new RemindersSimpleCursorAdapter(this,R.layout.activity_main,);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        listView = (ListView) findViewById(R.id.list_view_id);
+        rAdapter = new RemindersDbAdapter(this);
+        rAdapter.open();
+        Cursor cursor = rAdapter.fetchAllReminders();
+        String[] from = new String[]{
+                RemindersDbAdapter.COL_CONTENT};
+        int[] to = new int[]{R.id.row_text};
+        rCursor = new RemindersSimpleCursorAdapter(this, R.layout.reminder_item, cursor, from, to, 0);
+        listView.setAdapter(rCursor);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        rAdapter.close();
     }
 
     @Override
@@ -40,10 +59,9 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        final Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_reminder_dialog);
         dialog.setTitle("NEW REMINDER .");
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
             dialog.show();
             return true;
@@ -54,15 +72,23 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void AddReminder()
+    public void AddReminder(View view)
     {
-        //String content = reminderContent.getText().toString();
-        //Boolean important = reminderImportant.isEnabled();
-        //RDBA.createReminder(content,important);
-        // Log.w(TAG, "HIIIII fROM rEM");
+        rContent = (EditText) dialog.findViewById(R.id.text_reminder);
+        rImportant  = (CheckBox) dialog.findViewById(R.id.check_important);
+        listView = (ListView)  findViewById(R.id.list_view_id);
+        String content = rContent.getText().toString();
+        Boolean important = rImportant.isChecked();
+        rAdapter.createReminder(content,important);
+        Log.w(TAG, "Adding new reminder");
+        Cursor c = rAdapter.fetchAllReminders();
+        rCursor.changeCursor(c);
+        dialog.dismiss();
     }
-    public void CancelDialog()
+    public void ExitDialogReminder(View view)
     {
-        // dialog.cancel();
+        dialog.dismiss();
+        Log.w(TAG, "Cancel adding request");
     }
+
 }

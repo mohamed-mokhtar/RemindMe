@@ -52,20 +52,33 @@ public class RemindersDbAdapter {
         }
     }
 
-
+    public static String toNumeralString(final Boolean input) {
+        if (input == null) {
+            return "null";
+        } else {
+            return input ? "1" : "0";
+        }
+    }
     //TODO implement the function createReminder() which take the name as the content of the reminder and boolean important...note that the id will be created for you automatically
     public void createReminder(String name, boolean important) {
-        String INSERT = "INSERT INTO " + TABLE_NAME + " VALUES (" + name + "," + Boolean.toString(important)+");" ;
-        Log.w(TAG, INSERT);
-        mDb.execSQL(INSERT);
+        if (!name.isEmpty()) {
+            String INSERT = "INSERT INTO "+ TABLE_NAME + "( " + COL_CONTENT + " , "+COL_IMPORTANT+") " + " VALUES ( '" + name + "'," + toNumeralString(important) + ");";
+            Log.w(TAG, INSERT);
+            try {
+                mDb.execSQL(INSERT);
+               }
+            catch (Exception e)
+            {
+                Log.w(TAG,e.getMessage());
+            }
+        }
     }
     //TODO overloaded to take a reminder
-    public long createReminder(Reminder reminder) {
+    public void createReminder(Reminder reminder) {
         String INSERT = "INSERT INTO " + TABLE_NAME +
-                " VALUES ("+reminder.getContent()+ "," + Integer.toString(reminder.getImportant())+");" ;
+                " VALUES ( '"+reminder.getContent()+ "' ," + Integer.toString(reminder.getImportant())+");" ;
         Log.w(TAG, INSERT);
         mDb.rawQuery(INSERT,null);
-        return 1;
     }
 
     //TODO implement the function fetchReminderById() to get a certain reminder given its id
@@ -91,7 +104,7 @@ public class RemindersDbAdapter {
 
     //TODO implement the function updateReminder() to update a certain reminder
     public void updateReminder(Reminder reminder) {
-        String UPDATE_ID = "UPDATE " + TABLE_NAME + " SET "+ COL_CONTENT + " = "+reminder.getContent() + " , " +
+        String UPDATE_ID = "UPDATE " + TABLE_NAME + " SET "+ COL_CONTENT + " = '"+reminder.getContent() + "' , " +
                  COL_IMPORTANT + " = " + Integer.toString(reminder.getImportant()) +
                  " WHERE "+ COL_ID + " = " + Integer.toString(reminder.getId())  + " ; " ;
         Log.w(TAG, UPDATE_ID);
