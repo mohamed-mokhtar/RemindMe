@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RemindME</string>
+    <string name="app_name">Reminder</string>
     <string name="action_add">ADD REMINDER</string>
     <string name="action_exit">EXIT</string>
     <!-- Strings used for fragments for navigation -->
