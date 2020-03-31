@@ -5,6 +5,10 @@
         android:title="@string/action_add"
          />
     <item
+        android:id="@+id/action_deleteAll"
+        android:title="DELETE ALL"
+        />
+    <item
         android:id="@+id/action_exit"
         android:title="@string/action_exit"
          />

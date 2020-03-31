@@ -119,7 +119,7 @@ public class RemindersDbAdapter {
 
     //TODO implement the function deleteAllReminders() to delete all reminders
     public void deleteAllReminders() {
-        String DELETE_ALL = "DELETE FROM " + TABLE_NAME + " WHERE 1=1 );" ;
+        String DELETE_ALL = "DELETE FROM " + TABLE_NAME + " WHERE( 1=1 );" ;
         Log.w(TAG, DELETE_ALL);
         mDb.execSQL(DELETE_ALL);
     }

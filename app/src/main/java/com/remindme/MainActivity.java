@@ -139,10 +139,17 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
             return true;
         }
+        else if(id==R.id.action_deleteAll){
+
+            rAdapter.deleteAllReminders();
+            Cursor c = rAdapter.fetchAllReminders();
+            rCursor.changeCursor(c);
+        }
         else if (id == R.id.action_exit) {
             finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
     public void AddReminder(View view)
