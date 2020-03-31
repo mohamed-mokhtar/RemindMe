@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 popup.getMenuInflater().inflate(R.menu.edit_reminder, popup.getMenu());
                 popup.show();
                 final View current=v;
-                final int itemposition=position;
+                final int rId=(int) rCursor.getItemId(position);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Reminder z=rAdapter.fetchReminderById(itemposition);
+                        Reminder z=rAdapter.fetchReminderById(rId);
                         switch(item.getItemId()){
                             case R.id.action_edit:
                                 dialog = new Dialog(MainActivity.this);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                                 commitEdit.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        updateReminder(itemposition);
+                                        updateReminder(rId);
                                     }
                                 });
                                 Button cancelEdit=dialog.findViewById(R.id.btn_cancel);
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                 yes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        DeleteReminder(itemposition);
+                                        DeleteReminder(rId);
                                     }
                                 });
                                 no.setOnClickListener(new View.OnClickListener(){
@@ -158,15 +158,14 @@ public class MainActivity extends AppCompatActivity {
         rCursor.changeCursor(c);
         dialog.dismiss();
     }
-    public void updateReminder(int pos)
+    public void updateReminder(int rId)
     {
         rContent = (EditText) dialog.findViewById(R.id.text_reminder);
         rImportant  = (CheckBox) dialog.findViewById(R.id.check_important);
         listView = (ListView)  findViewById(R.id.list_view_id);
         String content = rContent.getText().toString();
         Boolean important = rImportant.isChecked();
-        long R=rCursor.getItemId(pos);
-        Reminder z=rAdapter.fetchReminderById((int)R);
+        Reminder z=rAdapter.fetchReminderById(rId);
         z.setContent(content);
         int important01;
         if(important==true)
@@ -179,14 +178,12 @@ public class MainActivity extends AppCompatActivity {
         rCursor.changeCursor(c);
         dialog.dismiss();
     }
-    public void DeleteReminder(int pos)
+    public void DeleteReminder(int rId)
     {
         rContent = (EditText) dialog.findViewById(R.id.text_reminder);
         rImportant  = (CheckBox) dialog.findViewById(R.id.check_important);
         listView = (ListView)  findViewById(R.id.list_view_id);
-        long R=rCursor.getItemId(pos);
-        Reminder z=rAdapter.fetchReminderById((int)R);
-        rAdapter.deleteReminderById(z.getId());
+        rAdapter.deleteReminderById(rId);
         Log.w(TAG, "deleting  reminder");
         Cursor c = rAdapter.fetchAllReminders();
         rCursor.changeCursor(c);
