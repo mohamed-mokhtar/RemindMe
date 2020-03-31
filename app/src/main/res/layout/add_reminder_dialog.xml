@@ -23,7 +23,8 @@
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:typeface="normal" />
+        android:typeface="normal"
+        android:layout_alignParentLeft="true" />
 
     <EditText
         android:id="@+id/text_reminder"
@@ -35,7 +36,8 @@
         android:gravity="top"
         android:hint="Reminder"
         android:isScrollContainer="true"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignParentLeft="true" />
 
     <CheckBox
         android:id="@+id/check_important"
@@ -45,7 +47,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         android:text="Important"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_alignParentLeft="true" />
 
     <Button
         android:id="@+id/btn_commit"

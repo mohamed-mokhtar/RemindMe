@@ -112,7 +112,7 @@ public class RemindersDbAdapter {
     }
     //TODO implement the function deleteReminderById() to delete a certain reminder given its id
     public void deleteReminderById(int nId) {
-        String DELETE_ID =  "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + " = "+ Integer.toString(nId)+" );" ;
+        String DELETE_ID =  "DELETE FROM " + TABLE_NAME + " WHERE (" + COL_ID + " = "+ Integer.toString(nId)+" );" ;
         Log.w(TAG, DELETE_ID);
         mDb.execSQL(DELETE_ID);
     }
