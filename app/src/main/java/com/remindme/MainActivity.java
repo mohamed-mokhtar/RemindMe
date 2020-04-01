@@ -140,10 +140,33 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id==R.id.action_deleteAll){
+            dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.delete_warning);
+            TextView text=dialog.findViewById(R.id.warning);
+            text.setText("All reminders will be deleted,proceed?");
+            dialog.show();
+            Button no=dialog.findViewById(R.id.buttonno);
+            Button yes=dialog.findViewById(R.id.buttonyes);
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-            rAdapter.deleteAllReminders();
-            Cursor c = rAdapter.fetchAllReminders();
-            rCursor.changeCursor(c);
+                    rAdapter.deleteAllReminders();
+                    Cursor c = rAdapter.fetchAllReminders();
+                    rCursor.changeCursor(c);
+                    dialog.dismiss();
+                }
+            });
+            no.setOnClickListener(new View.OnClickListener(){
+                @Override
+                //On click function
+                public void onClick(View view) {
+                    dialog.dismiss();
+
+                }
+            });
+
+
         }
         else if (id == R.id.action_exit) {
             finish();
