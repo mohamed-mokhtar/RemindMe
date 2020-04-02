@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         rAdapter.close();
+        super.onDestroy();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
