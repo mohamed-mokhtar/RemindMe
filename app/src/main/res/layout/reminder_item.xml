@@ -12,9 +12,8 @@
         android:layout_height="48dp">
 
 
-        <view
+        <View
             android:id="@+id/row_tab"
-            class="android.view.View"
             android:layout_width="10dp"
             android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark" />
@@ -31,14 +30,5 @@
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="18sp" />
     </LinearLayout>
-    <view
-        class="android.view.View"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#000"/>
-    <view
-        class="android.view.View"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#333"/>
+
 </LinearLayout>
